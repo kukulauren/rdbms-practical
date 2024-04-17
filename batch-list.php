@@ -39,7 +39,7 @@
                         <tbody>
                             <?php
                             // sql statement
-                            $sql = "SELECT *,batches.id as batch_id FROM batches LEFT JOIN courses ON courses.id = batches.course_id";
+                            $sql = "SELECT *,batches.id as batch_id,(SELECT COUNT(id) FROM enrollments WHERE batches.id=enrollments.batch_id ) as student_count FROM batches LEFT JOIN courses ON courses.id = batches.course_id";
 
                             // run query
                             $query = mysqli_query($conn, $sql);
@@ -77,7 +77,7 @@
                                         <?php endif; ?>
                                     </td>
 
-                                    <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium text-gray-800 dark:text-gray-200"><?= $row['student_limit'] ?></td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium text-gray-800 dark:text-gray-200">  <?= $row['student_count'] ?> "/" <?= $row['student_limit'] ?></td>
 
                                     <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium text-gray-800 dark:text-gray-200">
                                         <?= date("d M Y", strtotime($row['created_at'])) ?>
